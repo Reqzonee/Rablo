@@ -1,5 +1,3 @@
-// src/components/Navbar.jsx
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -31,7 +29,7 @@ const Navbar = ({ token, userName, onLogout }) => {
   return (
     <nav style={styles.navbar}>
       <ToastContainer />
-      <div style={styles.logo}>
+      <div style={styles.logoContainer}>
         <Link to="/" style={styles.logoLink}>Home</Link>
       </div>
       <div style={styles.links}>
@@ -64,14 +62,14 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     borderBottom: '1px solid #ccc',
   },
-  logo: {
-    fontSize: '1.8rem',
-    fontWeight: 'bold',
+  logoContainer: {
+    flex: '1 0 auto', // This ensures the logo is always to the left
   },
   logoLink: {
     textDecoration: 'none',
     color: '#61dafb',
     fontWeight: 'bold',
+    fontSize: '1.8rem',
   },
   links: {
     display: 'flex',
