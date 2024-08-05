@@ -29,7 +29,7 @@ export const addProduct = async (productData, token) => {
   
 export const fetchUserProducts = async (token) => {
     try {
-      const response = await axios.get(`${API_URL}api/products/user`, {
+      const response = await axios.get(`${API_URL}/api/products/user`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
