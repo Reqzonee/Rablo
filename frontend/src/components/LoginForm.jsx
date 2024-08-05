@@ -4,6 +4,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../api/authApi';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = ({ setToken }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -13,35 +15,38 @@ const LoginForm = ({ setToken }) => {
     try {
       const { token } = await login(data);
       setToken(token);
-      alert('Login successful');
+      toast.success('Login successful');
       navigate('/');
     } catch (error) {
-      alert('Login failed');
+      toast.error('Login failed');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
-      <div style={styles.fieldContainer}>
-        <label style={styles.label}>Email</label>
-        <input
-          type="email"
-          style={styles.input}
-          {...register('email', { required: 'Email is required' })}
-        />
-        <p style={styles.error}>{errors.email?.message}</p>
-      </div>
-      <div style={styles.fieldContainer}>
-        <label style={styles.label}>Password</label>
-        <input
-          type="password"
-          style={styles.input}
-          {...register('password', { required: 'Password is required' })}
-        />
-        <p style={styles.error}>{errors.password?.message}</p>
-      </div>
-      <button type="submit" style={styles.button}>Log In</button>
-    </form>
+    <>
+      <ToastContainer />
+      <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
+        <div style={styles.fieldContainer}>
+          <label style={styles.label}>Email</label>
+          <input
+            type="email"
+            style={styles.input}
+            {...register('email', { required: 'Email is required' })}
+          />
+          <p style={styles.error}>{errors.email?.message}</p>
+        </div>
+        <div style={styles.fieldContainer}>
+          <label style={styles.label}>Password</label>
+          <input
+            type="password"
+            style={styles.input}
+            {...register('password', { required: 'Password is required' })}
+          />
+          <p style={styles.error}>{errors.password?.message}</p>
+        </div>
+        <button type="submit" style={styles.button}>Log In</button>
+      </form>
+    </>
   );
 };
 

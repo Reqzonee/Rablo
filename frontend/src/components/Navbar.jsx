@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = ({ token, userName, onLogout }) => {
   const navigate = useNavigate();
   const AUTH_URL = import.meta.env.VITE_API_URL;
-
 
   const handleLogout = async () => {
     try {
@@ -19,14 +20,17 @@ const Navbar = ({ token, userName, onLogout }) => {
       });
       localStorage.removeItem('token');
       onLogout();
+      toast.success('Logged out successfully!');
       navigate('/login');
     } catch (error) {
+      toast.error('Logout failed');
       console.error('Logout failed', error);
     }
   };
 
   return (
     <nav style={styles.navbar}>
+      <ToastContainer />
       <div style={styles.logo}>
         <Link to="/" style={styles.logoLink}>Home</Link>
       </div>

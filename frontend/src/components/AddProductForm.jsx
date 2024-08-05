@@ -4,6 +4,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { addProduct } from '../api/productApi';
 
 // Validation schema
@@ -24,17 +26,18 @@ const AddProductForm = ({ token, refreshProducts }) => {
       // Convert 'featured' to Boolean
       data.featured = !!data.featured; // Convert 'on' or undefined to Boolean
       await addProduct(data, token);
-      alert('Product added successfully');
+      toast.success('Product added successfully!');
       refreshProducts();
       reset();
     } catch (error) {
-      alert('Error adding product');
+      toast.error('Error adding product');
       console.error('Error adding product:', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
+      <ToastContainer />
       <h2 style={styles.title}>Add Product</h2>
       <div style={styles.formGroup}>
         <label style={styles.label}>Name</label>
