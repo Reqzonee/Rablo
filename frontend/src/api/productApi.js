@@ -1,12 +1,11 @@
 // src/api/productApi.js
 
 import axios from 'axios';
-
-const AUTH_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getAllProducts = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(`${API_URL}/api/products`);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -16,7 +15,7 @@ export const getAllProducts = async () => {
 
 export const addProduct = async (productData, token) => {
     try {
-      const response = await axios.post(API_URL, productData, {
+      const response = await axios.post(`${API_URL}/api/products`, productData, {
         headers: {
           Authorization: `Bearer ${token}` // Include token in headers
         }
@@ -30,7 +29,7 @@ export const addProduct = async (productData, token) => {
   
 export const fetchUserProducts = async (token) => {
     try {
-      const response = await axios.get(`${API_URL}/user`, {
+      const response = await axios.get(`${API_URL}/products/user`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
