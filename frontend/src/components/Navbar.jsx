@@ -5,10 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = ({ token, userName, onLogout }) => {
   const navigate = useNavigate();
+  const AUTH_URL = import.meta.env.VITE_API_URL;
+
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:3000/api/auth/logout', {
+      await fetch(`${AUTH_URL}/api/auth/logout`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

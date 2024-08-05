@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/products';
+const AUTH_URL = import.meta.env.VITE_API_URL;
 
 export const getAllProducts = async () => {
   try {

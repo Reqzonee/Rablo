@@ -12,11 +12,13 @@ import MyProducts from './pages/MyProducts';
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [userName, setUserName] = useState('');
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
     if (token) {
       // Fetch user data or decode token to get the user's name
-      fetch('http://localhost:3000/api/auth/user', {
+      fetch(`${apiUrl}/api/auth/user`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
