@@ -1,18 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { getAllProducts } from '../api/productApi';
+// src/components/ProductList.jsx
 
-const ProductList = ({ token }) => {
+import React, { useEffect, useState } from 'react';
+import { getAllProducts, getFeaturedProducts, getProductsByPrice, getProductsByRating } from '../api/productApi';
+
+const ProductList = ({ token, filter, price, rating }) => {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async () => {
     try {
-      const data = await getAllProducts(token);
-      // Ensure all fields are in the correct format
+      let data;
+      if (filter === 'featured') {
+        data = await getFeaturedProducts(token);
+      } else if (filter === 'price') {
+        console.log("price is ", price);
+        data = await getProductsByPrice(token, price);
+      } else if (filter === 'rating') {
+        data = await getProductsByRating(token, rating);
+      } else {
+        data = await getAllProducts(token);
+      }
+
       const formattedData = data.map(product => ({
         ...product,
         price: typeof product.price === 'object' ? product.price.$numberDecimal : product.price,
         rating: typeof product.rating === 'object' ? product.rating.$numberDecimal : product.rating,
       }));
+
       setProducts(formattedData);
     } catch (error) {
       console.error('Failed to fetch products:', error);
@@ -21,7 +34,7 @@ const ProductList = ({ token }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [token]);
+  }, [token, filter, price, rating]);
 
   return (
     <div style={styles.container}>

@@ -8,9 +8,9 @@ import { addProduct } from '../api/productApi';
 
 // Validation schema
 const schema = yup.object().shape({
-  productId: yup.string().required('Product ID is required'),
   name: yup.string().required('Name is required'),
   price: yup.number().required('Price is required').typeError('Price must be a number'),
+  rating: yup.number().min(0).max(5).typeError('Rating must be a number between 0 and 5'),
   company: yup.string().required('Company is required'),
 });
 
@@ -21,23 +21,21 @@ const AddProductForm = ({ token, refreshProducts }) => {
 
   const onSubmit = async (data) => {
     try {
+      // Convert 'featured' to Boolean
+      data.featured = !!data.featured; // Convert 'on' or undefined to Boolean
       await addProduct(data, token);
       alert('Product added successfully');
       refreshProducts();
       reset();
     } catch (error) {
       alert('Error adding product');
+      console.error('Error adding product:', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
       <h2 style={styles.title}>Add Product</h2>
-      <div style={styles.formGroup}>
-        <label style={styles.label}>Product ID</label>
-        <input {...register('productId')} style={styles.input} />
-        <p style={styles.error}>{errors.productId?.message}</p>
-      </div>
       <div style={styles.formGroup}>
         <label style={styles.label}>Name</label>
         <input {...register('name')} style={styles.input} />
@@ -55,10 +53,7 @@ const AddProductForm = ({ token, refreshProducts }) => {
       <div style={styles.formGroup}>
         <label style={styles.label}>Rating</label>
         <input type="number" step="0.1" {...register('rating')} style={styles.input} />
-      </div>
-      <div style={styles.formGroup}>
-        <label style={styles.label}>Created At</label>
-        <input type="date" {...register('createdAt')} style={styles.input} />
+        <p style={styles.error}>{errors.rating?.message}</p>
       </div>
       <div style={styles.formGroup}>
         <label style={styles.label}>Company</label>

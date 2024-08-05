@@ -9,8 +9,8 @@ const authMiddleware = require('../middleware/authMiddleware'); // Assuming you 
 router.post('/', authMiddleware, productController.addProduct);
 router.get('/', productController.getAllProducts);
 router.get('/featured', productController.getFeaturedProducts);
-router.get('/price/:price', productController.getProductsByMaxPrice);
-router.get('/rating/:rating', productController.getProductsByMinRating);
+router.get('/price', productController.getProductsByPrice);
+router.get('/rating', productController.getProductsByRating);
 router.get('/user', authMiddleware, productController.getUserProducts); // New route for user products
 router.put('/:id', authMiddleware, productController.updateProduct);
 router.delete('/:id', authMiddleware, productController.deleteProduct);

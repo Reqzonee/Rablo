@@ -1,14 +1,49 @@
 // src/pages/Home.jsx
 
-import React from 'react';
+import React, { useState } from 'react';
 import ProductList from '../components/ProductList';
 
 const Home = ({ token }) => {
+  const [filter, setFilter] = useState('all');
+  const [price, setPrice] = useState('');
+  const [rating, setRating] = useState('');
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Product Management</h1>
       {token ? (
-        <ProductList token={token} />
+        <>
+          <div style={styles.filterContainer}>
+            <button onClick={() => setFilter('all')} style={styles.button}>All Products</button>
+            <button onClick={() => setFilter('featured')} style={styles.button}>Featured Products</button>
+            <button onClick={() => setFilter('price')} style={styles.button}>Filter by Price</button>
+            <button onClick={() => setFilter('rating')} style={styles.button}>Filter by Rating</button>
+          </div>
+          {filter === 'price' && (
+            <div style={styles.inputContainer}>
+              <label style={styles.label}>Max Price:</label>
+              <input 
+                type="number" 
+                value={price} 
+                onChange={(e) => setPrice(e.target.value)} 
+                style={styles.input} 
+              />
+            </div>
+          )}
+          {filter === 'rating' && (
+            <div style={styles.inputContainer}>
+              <label style={styles.label}>Min Rating:</label>
+              <input 
+                type="number" 
+                step="0.1"
+                value={rating} 
+                onChange={(e) => setRating(e.target.value)} 
+                style={styles.input} 
+              />
+            </div>
+          )}
+          <ProductList token={token} filter={filter} price={price} rating={rating} />
+        </>
       ) : (
         <p style={styles.message}>Please log in to manage products.</p>
       )}
@@ -34,6 +69,39 @@ const styles = {
   message: {
     textAlign: 'center',
     color: '#666',
+  },
+  filterContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '20px',
+  },
+  button: {
+    margin: '0 10px',
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '4px',
+    backgroundColor: '#007BFF',
+    color: '#fff',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  inputContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  label: {
+    marginBottom: '5px',
+    fontSize: '16px',
+    color: '#333',
+  },
+  input: {
+    padding: '8px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    fontSize: '16px',
   },
 };
 

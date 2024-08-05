@@ -16,6 +16,7 @@ const App = () => {
 
 
   useEffect(() => {
+    // console.log("token is inside app.jsx", token);
     if (token) {
       // Fetch user data or decode token to get the user's name
       fetch(`${apiUrl}/api/auth/user`, {
@@ -69,7 +70,7 @@ const App = () => {
           />
           <Route
             path="/my-products"
-            element={token ? <MyProducts /> : <Navigate to="/login" />}
+            element={token ? <MyProducts token={token}/> : <Navigate to="/login" />}
           />
         </Routes>
       </div>
